@@ -3,7 +3,13 @@
     <Nuxt />
   </div>
 </template>
-
+<script>
+export default {
+  mounted () {
+    document.querySelector('html').classList.add(`theme-${this.$store.state.common.theme}`);
+  }
+}
+</script>
 <style>
 html {
   font-family:
