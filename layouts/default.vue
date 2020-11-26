@@ -1,10 +1,21 @@
 <template>
-  <div>
+  <div id="wrap" class="flex h-screen bg-gray-50 dark:bg-gray-900"
+      :class="{ 'overflow-hidden': getIsSideMenuOpen}">
+    <Aside />
     <Nuxt />
   </div>
 </template>
 <script>
+import Aside from '../components/layout/aside.vue';
 export default {
+  components: {
+    Aside,
+  },
+   computed: {
+    getIsSideMenuOpen() {
+      return this.$store.state.common.isSideMenuOpen;
+    }
+  },
   mounted () {
     document.querySelector('html').classList.add(`theme-${this.$store.state.common.theme}`);
   }
