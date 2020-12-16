@@ -482,8 +482,8 @@ export default {
     closeNotificationsMenu() {
 
     },            
-    toggleTheme() {
-
+    toggleTheme(e) {
+      this.$store.commit('common/setTheme');
     }
   },
 };
