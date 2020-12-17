@@ -201,7 +201,11 @@ export default {
       isNotificationsMenuOpen: false,
     };
   },
-
+  computed: {
+    getTheme () {
+      return this.$store.state.common.theme;
+    }
+  },
   created() {
   },
   methods: {
@@ -215,11 +219,15 @@ export default {
       this.isProfileMenuOpen = false;
     },
 
-
+    toggleNotificationsMenu() {
+      this.isNotificationsMenuOpen = !this.isNotificationsMenuOpen;
+    },
     closeNotificationsMenu() {
 
     },            
-
+    toggleTheme(e) {
+      this.$store.commit('common/setTheme');
+    }
   },
 };
 </script>

@@ -3,18 +3,10 @@
      <!-- Desktop sidebar -->
         <aside class="z-20 flex-shrink-0 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block">
           <div class="py-4 text-gray-500 dark:text-gray-400">
-            <a
-              class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200"
-              href="#"
-            >
-              lol-record
-            </a>
+           <Logo />
             <ul class="mt-6">
               <li class="relative px-6 py-3">
-                <a
-                  class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                  href="index.html"
-                >
+                <nuxt-link class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200" to="/asset">
                   <svg
                     class="w-5 h-5"
                     aria-hidden="true"
@@ -30,7 +22,7 @@
                     ></path>
                   </svg>
                   <span class="ml-4">Dashboard</span>
-                </a>
+                </nuxt-link>
               </li>
             </ul>
             <ul>
@@ -283,12 +275,7 @@
         x-transition:leave-end="opacity-0 transform -translate-x-20"
       >
         <div class="py-4 text-gray-500 dark:text-gray-400">
-          <a
-            class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200"
-            href="#"
-          >
-            Windmill
-          </a>
+          <Logo />
           <ul class="mt-6">
             <li class="relative px-6 py-3">
               <a
@@ -543,8 +530,14 @@
 </template>
 
 <script>
+
+import Logo from '../Logo.vue'
+
 export default {
-  name: 'AsideDesktop',
+  components: {
+    Logo,
+  },
+  name: 'Aside',
   data() {
     return {
       isPagesMenuOpen : false

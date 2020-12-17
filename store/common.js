@@ -18,8 +18,8 @@ export default {
   mutations: {
     setTheme(state) {
       const html = document.querySelector("html");
-      html.classList.toggle("theme-dark", state.theme === "dark");
       state.theme = state.theme === "dark" ? "" : "dark";
+      html.classList.toggle("theme-dark", state.theme === "dark");
     },
     setIsSideMenuOpen(state) {
       state.isSideMenuOpen = !state.isSideMenuOpen;

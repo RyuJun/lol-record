@@ -2,14 +2,20 @@
   <div id="wrap" class="flex h-screen bg-gray-50 dark:bg-gray-900"
       :class="{ 'overflow-hidden': getIsSideMenuOpen}">
     <Aside />
-    <Nuxt />
+    <div class="flex flex-col flex-1">
+      <Header />
+      <Nuxt />
+    </div>
   </div>
 </template>
 <script>
+import Header from '../components/layout/header.vue'
 import Aside from '../components/layout/aside.vue';
+
 export default {
   components: {
     Aside,
+    Header,
   },
    computed: {
     getIsSideMenuOpen() {
@@ -23,15 +29,7 @@ export default {
 </script>
 <style>
 html {
-  font-family:
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
+  font-family: 'Roboto', 'Noto Sans KR', sans-serif;
   font-size: 16px;
   word-spacing: 1px;
   -ms-text-size-adjust: 100%;
