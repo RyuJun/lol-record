@@ -1,3 +1,4 @@
+const serverUrl = 'https://kr.api.riotgames.com/';
 export default {
   // Disable server-side rendering (https://go.nuxtjs.dev/ssr-mode)
   ssr: false,
@@ -39,10 +40,7 @@ export default {
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
-  modules: [
-    // https://go.nuxtjs.dev/bootstrap
-  ],
-
+  modules: ['@nuxtjs/axios', ['@nuxtjs/proxy', { pathRewrite: { '^/api': serverUrl } }]],
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
     // loaders: {

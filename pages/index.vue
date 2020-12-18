@@ -189,6 +189,7 @@
 </template>
 
 <script>
+import { fetch } from '@/apis/commonApi';
 
 export default {
   name: 'Index',
@@ -202,9 +203,17 @@ export default {
     };
   },
 
-  created() {
+  async created() {
+    await this.get();
   },
+    
   methods: {
+    get() {
+      return fetch('/summoner/v4/summoners/by-name/류뚝딱')
+      .then((data) => {
+        console.log(data);
+      });
+    },
     togglePagesMenu() {
       this.isPagesMenuOpen = !this.isPagesMenuOpen;
     },
