@@ -78,22 +78,22 @@ button,
 select {
   text-transform: none;
 }
-[type="button"],
-[type="reset"],
-[type="submit"],
+[type='button'],
+[type='reset'],
+[type='submit'],
 button {
   -webkit-appearance: button;
 }
-[type="button"]::-moz-focus-inner,
-[type="reset"]::-moz-focus-inner,
-[type="submit"]::-moz-focus-inner,
+[type='button']::-moz-focus-inner,
+[type='reset']::-moz-focus-inner,
+[type='submit']::-moz-focus-inner,
 button::-moz-focus-inner {
   border-style: none;
   padding: 0;
 }
-[type="button"]:-moz-focusring,
-[type="reset"]:-moz-focusring,
-[type="submit"]:-moz-focusring,
+[type='button']:-moz-focusring,
+[type='reset']:-moz-focusring,
+[type='submit']:-moz-focusring,
 button:-moz-focusring {
   outline: 1px dotted ButtonText;
 }
@@ -114,20 +114,20 @@ progress {
 textarea {
   overflow: auto;
 }
-[type="checkbox"],
-[type="radio"] {
+[type='checkbox'],
+[type='radio'] {
   box-sizing: border-box;
   padding: 0;
 }
-[type="number"]::-webkit-inner-spin-button,
-[type="number"]::-webkit-outer-spin-button {
+[type='number']::-webkit-inner-spin-button,
+[type='number']::-webkit-outer-spin-button {
   height: auto;
 }
-[type="search"] {
+[type='search'] {
   -webkit-appearance: textfield;
   outline-offset: -2px;
 }
-[type="search"]::-webkit-search-decoration {
+[type='search']::-webkit-search-decoration {
   -webkit-appearance: none;
 }
 ::-webkit-file-upload-button {
@@ -179,9 +179,8 @@ ul {
   list-style: none;
 }
 html {
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI,
-    Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji,
-    Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans,
+    sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
   line-height: 1.5;
 }
 *,
@@ -215,7 +214,7 @@ input::placeholder,
 textarea::placeholder {
   color: #a0aec0;
 }
-[role="button"],
+[role='button'],
 button {
   cursor: pointer;
 }
@@ -399,8 +398,7 @@ video {
     display: none;
   }
 }
-@media print and (-ms-high-contrast: active),
-  print and (-ms-high-contrast: none) {
+@media print and (-ms-high-contrast: active), print and (-ms-high-contrast: none) {
   .form-select {
     padding-right: 0.75rem;
   }
@@ -1280,12 +1278,10 @@ video {
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
 .shadow-md {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 .shadow-xl {
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 .shadow-inner {
   box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
@@ -1489,11 +1485,11 @@ video {
   color: #ac94fa;
   color: rgba(172, 148, 250, var(--text-opacity));
 }
-.theme-dark .dark\:focus-within\:text-purple-400:focus-within {
+/* .theme-dark .dark\:focus-within\:text-purple-400:focus-within {
   --text-opacity: 1;
   color: #ac94fa;
   color: rgba(172, 148, 250, var(--text-opacity));
-}
+} */
 .theme-dark .dark\:hover\:text-gray-200:hover {
   --text-opacity: 1;
   color: #e5e7eb;
@@ -1575,9 +1571,8 @@ video {
   --transform-skew-y: 0;
   --transform-scale-x: 1;
   --transform-scale-y: 1;
-  transform: translateX(var(--transform-translate-x))
-    translateY(var(--transform-translate-y)) rotate(var(--transform-rotate))
-    skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y))
+  transform: translateX(var(--transform-translate-x)) translateY(var(--transform-translate-y))
+    rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y))
     scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y));
 }
 .translate-x-1 {
@@ -1596,8 +1591,7 @@ video {
   transition-property: all;
 }
 .transition {
-  transition-property: background-color, border-color, color, fill, stroke,
-    opacity, box-shadow, transform;
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
 }
 .transition-colors {
   transition-property: background-color, border-color, color, fill, stroke;

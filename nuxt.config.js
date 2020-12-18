@@ -24,7 +24,7 @@ export default {
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   // css: ["~/assets/antd/main.less"],
-  css: ['~/assets/tailwind/tailwind.output.css'],
+  css: ['./assets/tailwind/tailwind.output.css'],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   // plugins: ["@/plugins/antd-ui"],
