@@ -4,6 +4,15 @@
         <aside class="z-20 flex-shrink-0 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block">
           <div class="py-4 text-gray-500 dark:text-gray-400">
            <Logo />
+            <!-- <div class="mt-6">
+              <img :src="getProfileIcon" />
+            </div> -->
+            <div class="w-full flex justify-center mt-6">
+              <div class="relative hidden mr-3 rounded-full md:block " style="height:100px; width:100px;">
+                <img class="object-cover w-full h-full rounded-full" :src="getProfileIcon" alt="" height="100%" width="100%" loading="lazy">
+                <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
+              </div>
+            </div>
             <ul class="mt-6">
               <li class="relative px-6 py-3">
                 <nuxt-link class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200" to="/asset">
@@ -540,10 +549,14 @@ export default {
   name: 'Aside',
   data() {
     return {
-      isPagesMenuOpen : false
+      isPagesMenuOpen : false,
     };
   },
   computed: {
+    getProfileIcon () {
+      const profileIconId = this.$store.state.common.sommoner.profileIconId;
+      return `http://ddragon.leagueoflegends.com/cdn/10.25.1/img/profileicon/${profileIconId}.png`;
+    },
     getTheme () {
       return this.$store.state.common.theme;
     },
@@ -563,3 +576,4 @@ export default {
 <style>
 
 </style>
+

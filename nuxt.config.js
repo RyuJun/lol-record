@@ -33,14 +33,31 @@ export default {
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
-
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
   buildModules: [
     // https://go.nuxtjs.dev/typescript
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
-  modules: ['@nuxtjs/axios', ['@nuxtjs/proxy', { pathRewrite: { '^/api': serverUrl } }]],
+  modules: ['@nuxtjs/axios', '@nuxtjs/proxy'],
+  axios: {
+    baseURL: 'https://kr.api.riotgames.com/lol', // Used as fallback if no runtime config is provided
+    proxy: true,
+    headers: {
+      'X-Riot-Token': 'RGAPI-4b3d4787-b483-40be-a4c7-52e2fe280f80',
+    },
+  },
+  proxy: {
+    // /api로 들어오는 모든 요청은
+    '/api': {
+      // https://kr.api.riotgames.com/lol에 날린다.
+      target: 'https://kr.api.riotgames.com/lol',
+      // /api 및 이전 path를 전부 /로 변경
+      pathRewrite: {
+        '^/api': '/',
+      },
+    },
+  },
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
     // loaders: {
