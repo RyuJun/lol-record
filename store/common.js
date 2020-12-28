@@ -4,6 +4,7 @@ export default {
       theme: 'dark',
       isSideMenuOpen: false,
       sommoner: null,
+      champions: null,
     };
   },
 
@@ -16,6 +17,9 @@ export default {
     },
     sommoner() {
       return state.sommoner;
+    },
+    champions() {
+      return state.champions;
     },
   },
 
@@ -30,6 +34,9 @@ export default {
     },
     setSommoner(state, sommoner) {
       state.sommoner = sommoner;
+    },
+    setChampions(state, champions) {
+      state.champions = champions;
     },
   },
 

@@ -22,7 +22,6 @@ export default {
       },
     ],
   },
-
   // Global CSS (https://go.nuxtjs.dev/config-css)
   // css: ["~/assets/antd/main.less"],
   css: ['./assets/tailwind/tailwind.output.css'],
@@ -55,6 +54,14 @@ export default {
       // /api 및 이전 path를 전부 /로 변경
       pathRewrite: {
         '^/api': '/',
+      },
+    },
+    '/cdn': {
+      // https://kr.api.riotgames.com/lol에 날린다.
+      target: 'http://ddragon.leagueoflegends.com/cdn',
+      // /api 및 이전 path를 전부 /로 변경
+      pathRewrite: {
+        '^/cdn': '/',
       },
     },
   },

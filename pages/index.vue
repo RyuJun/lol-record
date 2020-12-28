@@ -2,6 +2,33 @@
 
   <main class="h-full overflow-y-auto">
     <div class="container grid px-6 mx-auto">
+
+      <div
+          class="mt-6 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800"
+      >
+        <h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">
+          Lines
+        </h4>
+        <LineChart />
+        <div
+          class="flex justify-center mt-4 space-x-3 text-sm text-gray-600 dark:text-gray-400"
+        >
+          <!-- Chart legend -->
+          <div class="flex items-center">
+            <span
+              class="inline-block w-3 h-3 mr-1 bg-teal-500 rounded-full"
+            ></span>
+            <span>Organic</span>
+          </div>
+          <div class="flex items-center">
+            <span
+              class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full"
+            ></span>
+            <span>Paid</span>
+          </div>
+        </div>
+      </div>
+
       <h2
         class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
       >
@@ -822,6 +849,8 @@
 </template>
 
 <script>
+import LineChart from '../components/LineChart';
+
 export default {
   name: 'Index',
   components: {
@@ -858,4 +887,3 @@ export default {
 <style lang="scss">
 
 </style>
-

@@ -60,6 +60,9 @@ export default {
       nameInput: null,
     }
   },
+  created() {
+   this.getCDNDatas()
+  },
   mounted () {
     document.querySelector('html').classList.add(`theme-${this.$store.state.common.theme}`);
   },
@@ -72,10 +75,19 @@ export default {
     }
   },
   methods: {
+    async getCDNDatas() {
+      const campions = this.$axios.$get(`/cdn/10.25.1/data/ko_KR/champion.json`);
+      const emptyArray = [];
+      campions.then(result => {
+        for (const [key, value] of Object.entries(result.data)) {
+          emptyArray.push(value);
+        }
+        this.$store.commit('common/setChampions', emptyArray);
+      });
+    },
     async searchSommoner() {
       try {
         const response = await this.$axios.$get(`/api/summoner/v4/summoners/by-name/${encodeURIComponent(this.nameInput)}`);
-        console.log(response);
         this.$store.commit('common/setSommoner', response);
       } catch (error) {
         console.log(error);
@@ -83,9 +95,6 @@ export default {
       } finally {
         // setLoading(false);
       }
-      
-      // 
-      
     }
   }
 }
