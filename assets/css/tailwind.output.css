@@ -179,8 +179,9 @@ ul {
   list-style: none;
 }
 html {
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans,
-    sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI,
+    Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji,
+    Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
   line-height: 1.5;
 }
 *,
@@ -398,7 +399,8 @@ video {
     display: none;
   }
 }
-@media print and (-ms-high-contrast: active), print and (-ms-high-contrast: none) {
+@media print and (-ms-high-contrast: active),
+  print and (-ms-high-contrast: none) {
   .form-select {
     padding-right: 0.75rem;
   }
@@ -1278,10 +1280,12 @@ video {
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
 .shadow-md {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 .shadow-xl {
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 .shadow-inner {
   box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
@@ -1571,8 +1575,9 @@ video {
   --transform-skew-y: 0;
   --transform-scale-x: 1;
   --transform-scale-y: 1;
-  transform: translateX(var(--transform-translate-x)) translateY(var(--transform-translate-y))
-    rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y))
+  transform: translateX(var(--transform-translate-x))
+    translateY(var(--transform-translate-y)) rotate(var(--transform-rotate))
+    skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y))
     scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y));
 }
 .translate-x-1 {
@@ -1591,7 +1596,8 @@ video {
   transition-property: all;
 }
 .transition {
-  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+  transition-property: background-color, border-color, color, fill, stroke,
+    opacity, box-shadow, transform;
 }
 .transition-colors {
   transition-property: background-color, border-color, color, fill, stroke;
@@ -1716,4 +1722,21 @@ video {
   .xl\:grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
+}
+/** 
+  custom-scrollbar-ui
+*/
+
+.custom-scrollbar-ui::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.custom-scrollbar-ui::-webkit-scrollbar-thumb {
+  background-color: rgba(160, 160, 160, 0.3);
+  border-radius: 10px;
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+.custom-scrollbar-ui::-webkit-scrollbar-track {
+  background-color: transparent;
 }

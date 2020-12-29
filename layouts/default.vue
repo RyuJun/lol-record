@@ -1,8 +1,24 @@
 <template>
   <div id="wrap" class="flex h-screen bg-gray-50 dark:bg-gray-900"
       :class="{ 'overflow-hidden': getIsSideMenuOpen}">
+      
     <template v-if="!getSommoner">
-      <div class="flex flex-col flex-1 justify-center items-center">
+      <div class="relative w-full h-full">
+        <!-- <video 
+          preload="none" 
+          loop="" 
+          playsinline="" 
+          autoplay=""
+          width="100%"
+          height="auto"
+          class="style__Video-sc-1s9oqga-2 gytcph" 
+          data-object-fit="cover" 
+          data-object-position="center center" 
+          src="https://assets.contentstack.io/v3/assets/blt731acb42bb3d1659/blt7de86c03defc8902/5f4959882ecc864927d8d392/ss2020_galio_lux_1920x1080.mp4" 
+          type="video/mp4">
+        </video> -->
+      </div>
+      <div class="absolute inset-0 flex flex-col flex-1 justify-center items-center">
         <div class="ready-logo-wrapper flex justify-center ">
            <Logo />
         </div>
@@ -38,7 +54,7 @@
     </template>
     <template v-else>
       <Aside />
-      <div class="flex flex-col flex-1">
+      <div class="flex flex-col flex-1 ">
         <Header />
         <Nuxt />
       </div>

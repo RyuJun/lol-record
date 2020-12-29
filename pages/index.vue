@@ -1,34 +1,90 @@
 <template>
 
-  <main class="h-full overflow-y-auto">
-    <div class="container grid px-6 mx-auto">
-
-      <div
-          class="mt-6 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800"
+  <main class="h-full overflow-y-auto custom-scrollbar-ui">
+    <div class="container px-6 mx-auto grid mt-6">
+      <h2
+        class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
       >
-        <h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">
-          Lines
-        </h4>
-        <LineChart />
+       League - <span class="text-base font-normal">{{leagueDetailData.name}}</span>
+      </h2>
+      <div class="grid gap-6 mb-8 sm:grid-cols-2 md:grid-cols-4">
         <div
-          class="flex justify-center mt-4 space-x-3 text-sm text-gray-600 dark:text-gray-400"
+          class="relative min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800"
         >
-          <!-- Chart legend -->
-          <div class="flex items-center">
-            <span
-              class="inline-block w-3 h-3 mr-1 bg-teal-500 rounded-full"
-            ></span>
-            <span>Organic</span>
+          <div class="flex justify-start items-center text-gray-800 dark:text-gray-300 mb-3 ">
+            <div class="text-3xl font-bold">{{recordAverage}}%</div>
+            <div class="ml-3 sm:ml-0 text-sm truncate">{{leagueData.wins && leagueData.wins + leagueData.losses}}전 {{leagueData.wins}}승 {{leagueData.losses}}패</div>
           </div>
-          <div class="flex items-center">
-            <span
-              class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full"
-            ></span>
-            <span>Paid</span>
+          <PieChart 
+            v-if="leagueData.wins"
+            :chartdata="{
+              datasets: [
+                {
+                  data:[leagueData.losses, leagueData.wins],
+                  backgroundColor: ['#374151', '#7e3af2'],
+                  label: 'record',
+                },
+              ],
+              labels: ['losses', 'wins'],
+            }"
+          />
+          <div
+            class="flex justify-center mt-4 space-x-3 text-sm text-gray-600 dark:text-gray-400"
+          >
+            <!-- Chart legend -->
+            <div class="flex items-center">
+              <span
+                class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full"
+              ></span>
+              <span>승리</span>
+            </div>
+            <div class="flex items-center">
+              <span
+                class="inline-block w-3 h-3 mr-1 bg-gray-700 rounded-full"
+              ></span>
+              <span>패배</span>
+            </div>
+          </div>
+          
+        </div>
+        <div
+          class="min-w-0 p-4 bg-white rounded-lg flex items-center shadow-xs dark:bg-gray-800"
+        >
+            <div class="w-full flex justify-center items-center flex-col">
+              <div class="w-full flex flex-col items-center ustify-center" >
+                <img class="object-cover rounded-full" :src="tierSrc" alt="" width="100%" height="auto" style="max-width:200px">
+                <div class="pt-5 font-bold text-gray-600 dark:text-gray-300 md:text-center">
+                  <div class="text-lg truncate">{{`${leagueData.tier} - ${leagueData.rank}`}}</div>
+                  <div class="text-sm truncate">{{`${leagueData.queueType}`}}</div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div
+          class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800"
+        >
+          <h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">
+            최근 사용챔프
+          </h4>
+          <div
+            class="flex justify-center mt-4 space-x-3 text-sm text-gray-600 dark:text-gray-400"
+          >
+          </div>
+        </div>
+        <div
+          class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800"
+        >
+          <h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">
+            선호 포지션
+          </h4>
+          <div
+            class="flex justify-center mt-4 space-x-3 text-sm text-gray-600 dark:text-gray-400"
+          >
           </div>
         </div>
       </div>
-
+    </div>
+    <div class="container grid px-6 mx-auto">
       <h2
         class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
       >
@@ -849,22 +905,41 @@
 </template>
 
 <script>
-import LineChart from '../components/LineChart';
+import PieChart from '../components/PieChart';
 
 export default {
   name: 'Index',
   components: {
+    PieChart
   },
   data() {
     return {
       isPagesMenuOpen:false,
       isProfileMenuOpen: false,
       isNotificationsMenuOpen: false,
+      leagueData: {
+        tier: '',
+        rank: '',
+        wins:0,
+        losses:0,
+      },
+      recordAverage : 0,
+      leagueDetailData: {},
+      endTime : 0,
+      beginTime: 0,
+      tierSrc: '',
     };
   },
-
+  computed: {
+    getSummoner() {
+      return this.$store.state.common.sommoner;
+    },
+  },
+  mounted() {
+    this.getLeague();
+    this.getWeekPlayCampion();
+  },
   methods: {
-    
     togglePagesMenu() {
       this.isPagesMenuOpen = !this.isPagesMenuOpen;
     },
@@ -874,8 +949,39 @@ export default {
     closeProfileMenu() {
       this.isProfileMenuOpen = false;
     },
+    async getLeague() {
+      try {
+        const league = (await this.$axios.$get(`/api/league/v4/entries/by-summoner/${this.$store.state.common.sommoner.id}`)).filter(item => item.queueType === 'RANKED_SOLO_5x5' )[0];
+        const leagueDetail = await this.$axios.$get(`/api/league/v4/leagues/${league.leagueId}`); 
+        this.leagueData = league;
+        this.leagueDetailData = leagueDetail;
+        this.recordAverage =  ((league.wins / (league.wins + league.losses))*100).toFixed(1);
 
-
+        let myRank = 0;
+        switch (league.rank){ 
+          case "I" : myRank = 1; break; 
+          case "II" : myRank = 2; break; 
+          case "III" : myRank = 3; break; 
+          case "IV" : myRank = 4; break; 
+          case "V" : myRank = 5; break; 
+          default : myRank = "I"; 
+        }
+        this.tierSrc = `https://opgg-static.akamaized.net/images/medals/${league.tier.toLowerCase()}_${myRank}.png`
+      } catch (error) {
+        console.log(error);
+      } finally {
+        // setLoading(false);
+      }
+    },
+    getWeekPlayCampion() {
+      let endTime='1609130927066';
+      let beginTime='1608526269413';
+      const matchPlayCmapion = this.$axios.$get(`/api/match/v4/matchlists/by-account/lhxQeA9IpKpAKip28W0ULSYg9G6-5SUKC9d0Z6T2Ol5X`);
+      
+      matchPlayCmapion.then(result => {
+        console.log(result);
+      });
+    },
     closeNotificationsMenu() {
 
     },            
