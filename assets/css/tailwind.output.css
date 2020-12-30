@@ -631,6 +631,11 @@ video {
   background-color: #7e3af2;
   background-color: rgba(126, 58, 242, var(--bg-opacity));
 }
+.theme-dark .dark\:bg-purple-600 {
+  --bg-opacity: 1;
+  background-color: #7e3af2;
+  background-color: rgba(126, 58, 242, var(--bg-opacity));
+}
 .theme-dark .dark\:bg-gray-700 {
   --bg-opacity: 1;
   background-color: #24262d;

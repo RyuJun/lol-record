@@ -4,19 +4,15 @@
       
     <template v-if="!getSommoner">
       <div class="relative w-full h-full">
-        <!-- <video 
-          preload="none" 
+        <video 
+          preload="auto" 
           loop="" 
-          playsinline="" 
           autoplay=""
-          width="100%"
-          height="auto"
-          class="style__Video-sc-1s9oqga-2 gytcph" 
-          data-object-fit="cover" 
-          data-object-position="center center" 
+          class="absolute opacity-10 w-full hidden md:block"
+          style="top:50%; transform: translateY(-50%);"
           src="https://assets.contentstack.io/v3/assets/blt731acb42bb3d1659/blt7de86c03defc8902/5f4959882ecc864927d8d392/ss2020_galio_lux_1920x1080.mp4" 
-          type="video/mp4">
-        </video> -->
+        >
+        </video>
       </div>
       <div class="absolute inset-0 flex flex-col flex-1 justify-center items-center">
         <div class="ready-logo-wrapper flex justify-center ">
