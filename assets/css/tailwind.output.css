@@ -1745,3 +1745,6 @@ video {
 .custom-scrollbar-ui::-webkit-scrollbar-track {
   background-color: transparent;
 }
+.m-center {
+  margin: 0 auto;
+}
