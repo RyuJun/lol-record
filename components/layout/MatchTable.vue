@@ -5,71 +5,92 @@
         class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
       >
         <tr v-for="(match, index) in matches" v-bind:key="match.gameId" class="text-gray-700 dark:text-gray-400">
-          <td class="px-4 py-3">
-            <div class="grid grid-cols-12 gap-2 relative">
-              <div class="flex items-center text-sm col-span-6 sm:col-span-4 md:col-span-3">
-                <!-- Avatar with inset shadow -->
-                <div
-                  class="relative w-8 h-8 mr-3 rounded-full"
-                >
-                  <img
-                    class="object-cover w-full h-full rounded-full"
-                    :src="match.src"
-                    alt=""
-                  />
-                </div>
-                <div>
-                  <p class="font-semibold">
-                    {{match.campionName}} 
-                    <span class="font-normal text-xs text-gray-600 dark:text-gray-400">
-                      {{`${match.time.gap} ${match.time.desc} 전`}} 
-                    </span>
-                  </p>
-                  <p v-if="matchDetails[index]" class="text-xs text-gray-600 dark:text-gray-400" >
-                    PlayTime {{Math.floor(matchDetails[index].gameDuration / 60)}} 분
-                  </p>
-                </div>
-              </div>
-              <div class="flex items-center">
-                <div class="flex flex-col">
-                  <div class="relative w-5 h-5 m-1 rounded-full">
+          <td class="px-4 py-3 text-sm table-border-top">
+            <div class="flex flex-col">
+              <div class="grid grid-cols-12 gap-2 relative">
+                <div class="flex items-center text-sm col-span-6 sm:col-span-4 md:col-span-3">
+                  <!-- Avatar with inset shadow -->
+                  <div
+                    class="relative w-8 h-8 mr-3 rounded-full"
+                  >
                     <img
                       class="object-cover w-full h-full rounded-full"
                       :src="match.src"
                       alt=""
                     />
                   </div>
-                  <div class="relative w-5 h-5 m-1 rounded-full">
-                    <img
-                      class="object-cover w-full h-full rounded-full"
-                      :src="match.src"
-                      alt=""
-                    />
+                  <div>
+                    <p class="font-semibold">
+                      {{match.campionName}} 
+                      <span class="font-normal text-xs text-gray-600 dark:text-gray-400">
+                        {{`${match.time.gap} ${match.time.desc} 전`}} 
+                      </span>
+                    </p>
+                    <p v-if="matchDetails[index]" class="text-xs text-gray-600 dark:text-gray-400" >
+                      PlayTime {{Math.floor(matchDetails[index].gameDuration / 60)}} 분
+                    </p>
                   </div>
                 </div>
-                <div class="flex flex-col">
-                  <div class="relative w-5 h-5 m-1 rounded-full">
-                    <img
-                      class="object-cover w-full h-full rounded-full"
-                      :src="match.src"
-                      alt=""
-                    />
+                <div class="flex items-center">
+                  <div class="flex flex-col">
+                    <div class="relative w-5 h-5 m-1 rounded-full">
+                      <img
+                        class="object-cover w-full h-full rounded-full"
+                        :src="match.src"
+                        alt=""
+                      />
+                    </div>
+                    <div class="relative w-5 h-5 m-1 rounded-full">
+                      <img
+                        class="object-cover w-full h-full rounded-full"
+                        :src="match.src"
+                        alt=""
+                      />
+                    </div>
                   </div>
-                  <div class="relative w-5 h-5 m-1 ounded-full">
-                    <img
-                      class="object-cover w-full h-full rounded-full"
-                      :src="match.src"
-                      alt=""
-                    />
+                  <div class="flex flex-col">
+                    <div class="relative w-5 h-5 m-1 rounded-full">
+                      <img
+                        class="object-cover w-full h-full rounded-full"
+                        :src="match.src"
+                        alt=""
+                      />
+                    </div>
+                    <div class="relative w-5 h-5 m-1 ounded-full">
+                      <img
+                        class="object-cover w-full h-full rounded-full"
+                        :src="match.src"
+                        alt=""
+                      />
+                    </div>
                   </div>
                 </div>
+                <div class="flex">
+                </div>
+                <div class="flex">
+                </div>
+                <div class="flex">
+                </div>
               </div>
-              <div class="flex">
-              </div>
-              <div class="flex">
-              </div>
-              <div class="flex">
-              </div>
+              <template v-if="matchDetails[index]">
+                <div v-for="(player, subIndex) in matchDetails[index].participants" v-bind:key="player.championId">
+                  <div class="grid grid-cols-12 gap-2 relative py-1">
+
+                    <div class="flex items-center text-sm col-span-6 sm:col-span-4 md:col-span-3">
+                      <div class="relative w-6 h-6 mr-3 rounded-full">
+                        <img class="object-cover w-full h-full rounded-full" :src="getCampionIconSrc(player.championId)" alt=""/>
+                      </div>
+                      <div>
+                      <p class="font-semibold">
+                        {{matchDetails[index].participantIdentities[subIndex].player.summonerName}} 
+                      </p>
+                     
+                    </div>
+                    </div>
+
+                  </div>
+                </div>
+              </template>
             </div>
           </td>
           <!-- <td class="px-4 py-3 text-sm grid grid-cols-2 gap-1">
@@ -173,7 +194,7 @@ export default {
     },
   },
   created() {
-    this.getMatchs(3);
+    this.getMatchs(2);
   },
   mounted() {
   },
@@ -204,6 +225,10 @@ export default {
         }
       }
     },
+    getCampionIconSrc(id) {
+      const selectChampion = this.getCampions.filter(campion => campion.key === String(id));
+      return `/cdn/11.4.1/img/champion/${selectChampion[0].id}.png`;
+    },
     async getMatchs(endIndex) {
       try {
         const param = `?${endIndex && `endIndex=${endIndex}`}`
@@ -213,7 +238,7 @@ export default {
         this.matches.forEach(game => {
           const selectChampion = this.getCampions.filter(campion => campion.key === String(game.champion));
           this.getMatchDetail(game.gameId);
-          game.src = `/cdn/10.25.1/img/champion/${selectChampion[0].id}.png`
+          game.src = `/cdn/11.4.1/img/champion/${selectChampion[0].id}.png`
           game.campionName = selectChampion[0].name
           game.time = this.getTimeGap(game.timestamp);
         });

@@ -159,7 +159,7 @@ export default {
     },
     getProfileIcon () {
       const profileIconId = this.$store.state.common.sommoner.profileIconId;
-      return `/cdn/10.25.1/img/profileicon/${profileIconId}.png`;
+      return `/cdn/11.4.1/img/profileicon/${profileIconId}.png`;
     },
     getTheme () {
       return this.$store.state.common.theme;
@@ -183,9 +183,10 @@ export default {
         }).map(item => {
         // }).splice(0,7).map(item => {
           const selectChampion = champions.filter(campion => campion.key === String(item.championId));
+          console.log(selectChampion);
           return {
             ...item,
-            src:`/cdn/10.25.1/img/champion/${selectChampion[0].id}.png`,
+            src:`/cdn/11.4.1/img/champion/${selectChampion[0].id}.png`,
             name: selectChampion[0].name,
             title: selectChampion[0].title
           }
