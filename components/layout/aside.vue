@@ -183,7 +183,6 @@ export default {
         }).map(item => {
         // }).splice(0,7).map(item => {
           const selectChampion = champions.filter(campion => campion.key === String(item.championId));
-          console.log(selectChampion);
           return {
             ...item,
             src:`/cdn/11.4.1/img/champion/${selectChampion[0].id}.png`,

@@ -88,7 +88,7 @@ export default {
   },
   methods: {
     async getCDNDatas() {
-      const campions = this.$axios.$get(`/cdn/11.4.1/data/en_US/champion.json`);
+      const campions = this.$axios.$get(`/cdn/11.4.1/data/ko_KR/champion.json`);
       const emptyArray = [];
       campions.then(result => {
         for (const [key, value] of Object.entries(result.data)) {

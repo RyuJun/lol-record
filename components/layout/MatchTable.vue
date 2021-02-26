@@ -4,30 +4,30 @@
       <tbody
         class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
       >
-        <tr v-for="(match, index) in matches" v-bind:key="match.gameId" class="text-gray-700 dark:text-gray-400">
+        <template v-if="matches.length === maxMatchesLength">
+          <tr  v-for="(match, index) in matches" v-bind:key="match.gameId" class="text-gray-700 dark:text-gray-400">
           <td class="px-4 py-3 text-sm table-border-top">
             <div class="flex flex-col">
               <div class="grid grid-cols-12 gap-2 relative">
                 <div class="flex items-center text-sm col-span-6 sm:col-span-4 md:col-span-3">
-                  <!-- Avatar with inset shadow -->
                   <div
                     class="relative w-8 h-8 mr-3 rounded-full"
                   >
                     <img
                       class="object-cover w-full h-full rounded-full"
-                      :src="match.src"
-                      alt=""
+                      :src="match.champion.iconSrc"
+                      alt="champion icon"
                     />
                   </div>
                   <div>
                     <p class="font-semibold">
-                      {{match.campionName}} 
+                      {{match.champion.name}} 
                       <span class="font-normal text-xs text-gray-600 dark:text-gray-400">
-                        {{`${match.time.gap} ${match.time.desc} 전`}} 
+                        {{`${match.timeInfo.gap} ${match.timeInfo.desc} 전`}} 
                       </span>
                     </p>
-                    <p v-if="matchDetails[index]" class="text-xs text-gray-600 dark:text-gray-400" >
-                      PlayTime {{Math.floor(matchDetails[index].gameDuration / 60)}} 분
+                    <p class="text-xs text-gray-600 dark:text-gray-400" >
+                      PlayTime {{Math.floor(match.detail.gameDuration / 60)}} 분
                     </p>
                   </div>
                 </div>
@@ -36,14 +36,12 @@
                     <div class="relative w-5 h-5 m-1 rounded-full">
                       <img
                         class="object-cover w-full h-full rounded-full"
-                        :src="match.src"
                         alt=""
                       />
                     </div>
                     <div class="relative w-5 h-5 m-1 rounded-full">
                       <img
                         class="object-cover w-full h-full rounded-full"
-                        :src="match.src"
                         alt=""
                       />
                     </div>
@@ -52,14 +50,12 @@
                     <div class="relative w-5 h-5 m-1 rounded-full">
                       <img
                         class="object-cover w-full h-full rounded-full"
-                        :src="match.src"
                         alt=""
                       />
                     </div>
                     <div class="relative w-5 h-5 m-1 ounded-full">
                       <img
                         class="object-cover w-full h-full rounded-full"
-                        :src="match.src"
                         alt=""
                       />
                     </div>
@@ -72,25 +68,23 @@
                 <div class="flex">
                 </div>
               </div>
-              <template v-if="matchDetails[index]">
-                <div v-for="(player, subIndex) in matchDetails[index].participants" v-bind:key="player.championId">
-                  <div class="grid grid-cols-12 gap-2 relative py-1">
+              <div v-for="(player, subIndex) in match.detail.participants" v-bind:key="player.championId">
+                <div class="grid grid-cols-12 gap-2 relative py-1">
 
-                    <div class="flex items-center text-sm col-span-6 sm:col-span-4 md:col-span-3">
-                      <div class="relative w-6 h-6 mr-3 rounded-full">
-                        <img class="object-cover w-full h-full rounded-full" :src="getCampionIconSrc(player.championId)" alt=""/>
-                      </div>
-                      <div>
-                      <p class="font-semibold">
-                        {{matchDetails[index].participantIdentities[subIndex].player.summonerName}} 
-                      </p>
-                     
+                  <div class="flex items-center text-sm col-span-6 sm:col-span-4 md:col-span-3">
+                    <div class="relative w-6 h-6 mr-3 rounded-full">
+                      <img class="object-cover w-full h-full rounded-full" :src="player.champion.iconSrc" alt=""/>
                     </div>
-                    </div>
-
+                    <div>
+                    <p class="font-semibold">
+                      {{match.detail.participantIdentities[subIndex].player.summonerName}} 
+                    </p>
+                    
                   </div>
+                  </div>
+
                 </div>
-              </template>
+              </div>
             </div>
           </td>
           <!-- <td class="px-4 py-3 text-sm grid grid-cols-2 gap-1">
@@ -170,6 +164,12 @@
             </div>
           </td> -->
         </tr>
+        </template>
+        <template v-else>
+          <div class="spinner flex justify-center items-center p-10">
+              <div class="bg-gray-700 dark:bg-purple-600 rounded-full animate-ping ease-in duration-500 w-10 h-10"></div>
+          </div>
+        </template>
       </tbody>
     </table>
   </div>
@@ -182,7 +182,8 @@ export default {
     return {
       activeTable: false,
       matches: [],
-      matchDetails: []
+      keepMatchData: null,
+      maxMatchesLength: 2
     };
   },
   computed: {
@@ -194,10 +195,15 @@ export default {
     },
   },
   created() {
-    this.getMatchs(2);
+    this.getMatchs();
   },
   mounted() {
   },
+  watch: {
+    matches: function () {
+      console.log(JSON.parse(JSON.stringify(this.matches)));
+    }
+  }, 
   methods: {
     getTimeGap(oldTimeStamp) {
       const old = new Date(oldTimeStamp);
@@ -225,59 +231,53 @@ export default {
         }
       }
     },
-    getCampionIconSrc(id) {
-      const selectChampion = this.getCampions.filter(campion => campion.key === String(id));
-      return `/cdn/11.4.1/img/champion/${selectChampion[0].id}.png`;
-    },
-    async getMatchs(endIndex) {
+    async getMatchs() {
       try {
-        const param = `?${endIndex && `endIndex=${endIndex}`}`
-        const matchsRequest = await this.$axios.$get(`/api/match/v4/matchlists/by-account/${this.$store.state.common.sommoner.accountId}${param}`);
-
-        this.matches = matchsRequest.matches;
-        this.matches.forEach(game => {
-          const selectChampion = this.getCampions.filter(campion => campion.key === String(game.champion));
-          this.getMatchDetail(game.gameId);
-          game.src = `/cdn/11.4.1/img/champion/${selectChampion[0].id}.png`
-          game.campionName = selectChampion[0].name
-          game.time = this.getTimeGap(game.timestamp);
+        const response = await this.$axios.get(`/api/match/v4/matchlists/by-account/${this.$store.state.common.sommoner.accountId}`,
+          {
+            params: {
+            beginIndex: this.matches.length,
+            endIndex: this.matches.length + 1,
+          }
         });
+        const matches = response.data.matches[0]
+        
+        const championInfo = this.getCampions.filter(campion => campion.key === String(matches.champion))[0];
+        championInfo.iconSrc = `/cdn/11.4.1/img/champion/${championInfo.id}.png`
+        matches.champion = championInfo;
+
+        matches.timeInfo = this.getTimeGap(matches.timestamp);
+
+        this.keepMatchData = matches;
+        this.getMatchDetail(matches.gameId);
       } catch (error) {
         console.log(error);
-      } finally {
-        // setLoading(false);
       }
     },
     async getMatchDetail(gameId) {
       try {
-        const matchsDetails = await this.$axios.$get(`/api/match/v4/matches/${gameId}`);
-        console.log(matchsDetails);
+        const response = await this.$axios.get(`/api/match/v4/matches/${gameId}`);
+        const matchDetail = response.data;
 
-        this.matchDetails.push(matchsDetails);
+        matchDetail.participants.forEach((detail) => {
+          const championInfo = this.getCampions.filter(campion => campion.key === String(detail.championId))[0];
+          championInfo.iconSrc = `/cdn/11.4.1/img/champion/${championInfo.id}.png`
+          detail.champion = championInfo;
+        })
+        
+        const mergeMatchData =  {
+          ...this.keepMatchData,
+          detail : matchDetail
+        }
+        this.matches = [...this.matches, mergeMatchData];
       } catch (error) {
         console.log(error);
       } finally {
-        // setLoading(false);
+        if(this.matches.length < this.maxMatchesLength) {
+          this.getMatchs();
+        }
       }
     },
-    // getMatchs() {
-    //   const matchsRequest = this.$axios.$get(`/api/match/v4/matchlists/by-account/${this.$store.state.common.sommoner.accountId}`);
-    //   matchsRequest.then(data => {
-        // let playChampions = {};
-        // data.matches.forEach(match => {
-        //   const matchCampion = match.champion;
-        //   if(playChampions[match.champion]){
-        //     playChampions[match.champion].list = [
-        //       ...playChampions[match.champion].list,
-            
-        //       match
-        //     ]
-        //   }else{
-        //     playChampions[match.champion] = playChampions[match.champion]
-        //   }
-        // })
-    //   });
-    // },
   },
 }
 </script>
